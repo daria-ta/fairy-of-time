@@ -1,0 +1,99 @@
+import { useState } from 'react';
+import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Plus, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+export default function FairyDashboard() {
+  const [xp, setXp] = useState(120);
+  const [level, setLevel] = useState(3);
+  const [goals, setGoals] = useState([
+    'Здорове тіло: мінус 1 кг',
+    'Пройти математику на 190+',
+  ]);
+  const [quests, setQuests] = useState([
+    'Вивчити формули площ трикутника',
+    'Не їсти солодке сьогодні',
+  ]);
+
+  const handleAddGoal = () => {
+    const newGoal = prompt('Введи нову ціль:');
+    if (newGoal) setGoals([...goals, newGoal]);
+  };
+
+  const handleAddQuest = () => {
+    const newQuest = prompt('Введи новий квест:');
+    if (newQuest) setQuests([...quests, newQuest]);
+  };
+
+  return (
+    <main className="p-6 bg-gradient-to-br from-blue-100 to-purple-100 min-h-screen font-sans">
+      <motion.h1 className="text-3xl font-bold text-center text-purple-700 mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Фея Часу</motion.h1>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Аватарка і амулет */}
+        <Card className="bg-white shadow-2xl rounded-2xl">
+          <CardContent className="flex items-center gap-4 p-4">
+            <img src="/avatar.png" alt="Avatar" className="w-20 h-20 rounded-full border-4 border-purple-300" />
+            <div>
+              <p className="text-xl font-semibold text-purple-800">Амулет: Срібна Цепочка</p>
+              <p className="text-sm text-gray-600">Рівень амулета: {level}</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* XP і рівень */}
+        <Card className="bg-white shadow-2xl rounded-2xl">
+          <CardContent className="p-4">
+            <p className="text-lg font-medium text-purple-700 mb-2">Рівень: {level}</p>
+            <Progress value={(xp % 100)} max={100} className="h-4 bg-purple-200" />
+            <p className="text-sm text-gray-500 mt-1">{xp % 100}/100 XP до наступного рівня</p>
+          </CardContent>
+        </Card>
+
+        {/* Цілі */}
+        <Card className="bg-white shadow-lg rounded-2xl">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-semibold text-purple-700">🎯 Цілі</h2>
+              <Button variant="ghost" size="icon" onClick={handleAddGoal}><Plus className="w-4 h-4" /></Button>
+            </div>
+            <ul className="list-disc pl-5 space-y-1 text-gray-700">
+              {goals.map((goal, idx) => (<li key={idx}>{goal}</li>))}
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Квести */}
+        <Card className="bg-white shadow-lg rounded-2xl">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-semibold text-purple-700">📜 Міні-квести</h2>
+              <Button variant="ghost" size="icon" onClick={handleAddQuest}><Plus className="w-4 h-4" /></Button>
+            </div>
+            <ul className="list-disc pl-5 space-y-1 text-gray-700">
+              {quests.map((quest, idx) => (<li key={idx}>{quest}</li>))}
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Книга заклинань */}
+        <Card className="bg-white shadow-lg rounded-2xl col-span-full">
+          <CardContent className="p-4">
+            <h2 className="text-xl font-semibold text-purple-700 mb-2">📘 Книга Заклинань</h2>
+            <p className="text-gray-600">(У цьому розділі ти зможеш додати свої магічні формули та тригери дій)</p>
+          </CardContent>
+        </Card>
+
+        {/* Книга Життя */}
+        <Card className="bg-white shadow-lg rounded-2xl col-span-full">
+          <CardContent className="p-4">
+            <h2 className="text-xl font-semibold text-purple-700 mb-2">📖 Книга Життя</h2>
+            <p className="text-gray-600">(Головні моменти, фотографії, досягнення та глави твого шляху)</p>
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  );
+}
